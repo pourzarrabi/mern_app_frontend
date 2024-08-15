@@ -7,16 +7,13 @@ export const useProductStore = create((set) => ({
     if (!newProduct.name || !newProduct.image || !newProduct.price) {
       return { success: false, message: "Please fill in all fields." };
     }
-    const res = await fetch(
-      "https://mern-app-api-iota.vercel.app/api/products",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      }
-    );
+    const res = await fetch(`${process.env.API}/api/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newProduct),
+    });
     const data = await res.json();
     set((state) => ({ products: [...state.products, data.data] }));
     return { success: true, message: "Product created successfully" };
@@ -29,12 +26,9 @@ export const useProductStore = create((set) => ({
     set(() => ({ isLoading: false }));
   },
   deleteProduct: async (pid) => {
-    const res = await fetch(
-      `https://mern-app-api-iota.vercel.app/api/products/${pid}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const res = await fetch(`${process.env.API}/api/products/${pid}`, {
+      method: "DELETE",
+    });
     const data = await res.json();
     if (!data.success) return { success: false, message: data.message };
 
@@ -45,16 +39,13 @@ export const useProductStore = create((set) => ({
     return { success: true, message: data.message };
   },
   updateProduct: async (pid, updatedProduct) => {
-    const res = await fetch(
-      `https://mern-app-api-iota.vercel.app/api/products/${pid}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProduct),
-      }
-    );
+    const res = await fetch(`${process.env.API}/api/products/${pid}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProduct),
+    });
     const data = await res.json();
     if (!data.success) return { success: false, message: data.message };
 

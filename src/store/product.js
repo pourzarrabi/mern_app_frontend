@@ -23,9 +23,7 @@ export const useProductStore = create((set) => ({
   },
   fetchProducts: async () => {
     set(() => ({ isLoading: true }));
-    const res = await fetch(
-      "https://mern-app-api-iota.vercel.app/api/products"
-    );
+    const res = await fetch(`${process.env.API}/api/products`);
     const data = await res.json();
     set({ products: data.data });
     set(() => ({ isLoading: false }));
